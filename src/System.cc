@@ -404,8 +404,9 @@ void System::SaveTrajectoryPerFrame(const string &filename)
     for (size_t i = 0; i < m_per_frame_pose.size(); i++) {
 
         cv::Mat Tcw= m_per_frame_pose[i];
-        cv::Mat Rwc = Tcw.rowRange(0,3).colRange(0,3).t();
-        cv::Mat twc = Tcw.rowRange(0,3).col(3);
+        cv::Mat Twc= Tcw.inv();
+        cv::Mat Rwc = Twc.rowRange(0,3).colRange(0,3).t();
+        cv::Mat twc = Twc.rowRange(0,3).col(3);
 
         vector<float> q = Converter::toQuaternion(Rwc);
 
